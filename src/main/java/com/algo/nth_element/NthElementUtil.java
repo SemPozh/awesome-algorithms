@@ -17,10 +17,6 @@ public class NthElementUtil {
                                                               int right,
                                                               int n,
                                                               int depthLimit) {
-        if (left == right) {
-            return;
-        }
-
         if (depthLimit == 0) {
             Arrays.sort(array, left, right + 1);
             return;
@@ -28,38 +24,29 @@ public class NthElementUtil {
 
         int pivotIndex = partition(array, left, right);
 
-        if (n < pivotIndex) {
+        if (pivotIndex > n) {
             introSelect(array, left, pivotIndex - 1, n, depthLimit - 1); // Ищем в левой части
-        } else if (n > pivotIndex) {
+        } else if (pivotIndex < n) {
             introSelect(array, pivotIndex + 1, right, n, depthLimit - 1); // Ищем в правой части
         }
     }
 
-    // Hoare partitioning
-    private static <T extends Comparable<T>> int partition(T[] array, int left, int right) {
-        T pivot = array[left];
-        int i = left - 1;
-        int j = right + 1;
-
-        while (true) {
-            // Find leftmost element greater
-            // than or equal to pivot
-            do {
-                i++;
-            } while (array[i].compareTo(pivot) < 0);
-
-            // Find rightmost element smaller
-            // than or equal to pivot
-            do {
-                j--;
-            } while (array[j].compareTo(pivot) > 0);
-
-            // If two pointers met.
-            if (i >= j) {
-                return j;
+    private static <T extends Comparable<T>> int partition(T[] arr, int low, int high) {
+        T pivot = arr[high];
+        int pivotloc = low;
+        for (int i = low; i <= high; i++) {
+            // inserting elements of less value
+            // to the left of the pivot location
+            if (arr[i].compareTo(pivot) < 0) {
+                swap(arr, i, pivotloc);
+                pivotloc++;
             }
-            swap(array, i, j);
         }
+
+        // swapping pivot to the final pivot location
+        swap(arr, high, pivotloc);
+
+        return pivotloc;
     }
 
     private static <T> void swap(T[] array, int i, int j) {
