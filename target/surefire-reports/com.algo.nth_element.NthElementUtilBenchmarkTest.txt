@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: com.algo.nth_element.NthElementUtilBenchmarkTest
+-------------------------------------------------------------------------------
+Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.218 s - in com.algo.nth_element.NthElementUtilBenchmarkTest
