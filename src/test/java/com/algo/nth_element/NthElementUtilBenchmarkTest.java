@@ -26,7 +26,7 @@ public class NthElementUtilBenchmarkTest {
 
         long totalDuration = 0;
         for (int i = 0; i < NUM_RUNS; i++) {
-            Integer[] testArray = array.clone(); // Клонируем массив для каждого запуска
+            Integer[] testArray = array.clone();
             long startTime = System.nanoTime();
             NthElementUtil.nthElement(testArray, index);
             long endTime = System.nanoTime();
@@ -60,7 +60,7 @@ public class NthElementUtilBenchmarkTest {
     @Test
     public void stressTests() {
         for (int test=0; test<1000; test++) {
-            int n = random.nextInt(10000);
+            int n = random.nextInt(1, 10000);
             Integer[] arr = new Integer[n];
             generateArray(arr);
             Integer[] sorted_arr = arr.clone();

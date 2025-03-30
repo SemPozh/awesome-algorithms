@@ -1,5 +1,6 @@
 package com.algo.nth_element;
 
+import java.lang.reflect.Array;
 import java.util.Arrays;
 
 public class NthElementUtil {
@@ -18,7 +19,7 @@ public class NthElementUtil {
                                                               int n,
                                                               int depthLimit) {
         if (depthLimit == 0) {
-            Arrays.sort(array, left, right + 1);
+            mergeSort(array, array.length);
             return;
         }
 
@@ -55,63 +56,43 @@ public class NthElementUtil {
         array[j] = temp;
     }
 
-    private static void merge(int arr[], int l, int m, int r) {
-        // Find sizes of two subarrays to be merged
-        int n1 = m - l + 1;
-        int n2 = r - m;
+    public static <T extends Comparable<T>> void merge(T[] arr, T[] l, T[] r, int left, int right) {
 
-        // Create temp arrays
-        int L[] = new int[n1];
-        int R[] = new int[n2];
-
-        // Copy data to temp arrays
-        for (int i = 0; i < n1; ++i)
-            L[i] = arr[l + i];
-        for (int j = 0; j < n2; ++j)
-            R[j] = arr[m + 1 + j];
-
-        // Merge the temp arrays
-        // Initial indices of first and second subarrays
-        int i = 0, j = 0;
-        // Initial index of merged subarray array
-        int k = l;
-        while (i < n1 && j < n2) {
-            if (L[i] <= R[j]) {
-                arr[k] = L[i];
-                i++;
+        int i = 0;
+        int j = 0;
+        int k = 0;
+        while (i < left && j < right) {
+            if (l[i].compareTo(r[j]) <= 0) {
+                arr[k++] = l[i++];
             } else {
-                arr[k] = R[j];
-                j++;
+                arr[k++] = r[j++];
             }
-            k++;
         }
-
-        // Copy remaining elements of L[] if any
-        while (i < n1) {
-            arr[k] = L[i];
-            i++;
-            k++;
+        while (i < left) {
+            arr[k++] = l[i++];
         }
-
-        // Copy remaining elements of R[] if any
-        while (j < n2) {
-            arr[k] = R[j];
-            j++;
-            k++;
+        while (j < right) {
+            arr[k++] = r[j++];
         }
     }
 
-    private static void mergeSort(int arr[], int l, int r) {
-        if (l < r) {
-            // Find the middle point
-            int m = l + (r - l) / 2;
+    private static <T> T[] createArray(Class<T> clazz, int size) {
+        return (T[]) Array.newInstance(clazz, size);
+    }
 
-            // Sort first and second halves
-            mergeSort(arr, l, m);
-            mergeSort(arr, m + 1, r);
-
-            // Merge the sorted halves
-            merge(arr, l, m, r);
+    public static <T extends Comparable<T>> void mergeSort(T[] arr, int n) {
+        if (n < 2) {
+            return;
         }
+        int mid = n / 2;
+        T[] l = createArray((Class<T>) arr.getClass().getComponentType(), mid);
+        T[] r = createArray((Class<T>) arr.getClass().getComponentType(), n - mid);
+
+        System.arraycopy(arr, 0, l, 0, mid);
+        if (n - mid >= 0) System.arraycopy(arr, mid, r, 0, n - mid);
+        mergeSort(l, mid);
+        mergeSort(r, n - mid);
+
+        merge(arr, l, r, mid, n - mid);
     }
 }
