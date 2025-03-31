@@ -21,3 +21,6 @@ SIZE=100000; N=50000;16267990 nanoseconds
 -----------------------------------------
 Benchmark 2 (sorted array)
 SIZE=100000; N=50000;18810270 nanoseconds
+
+
+![График](chart.png)
