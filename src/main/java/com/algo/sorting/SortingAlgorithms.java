@@ -2,9 +2,10 @@ package com.algo.sorting;
 
 import java.lang.reflect.Array;
 
+@SuppressWarnings("unchecked")
 public class SortingAlgorithms {
     public static <T extends Comparable<T>> void nthElement(T[] array, int n) {
-        if (array == null || n < 0 || n >= array.length) {
+        if (n < 0 || n >= array.length) {
             throw new IllegalArgumentException("Index n is out of range");
         }
 
@@ -22,16 +23,16 @@ public class SortingAlgorithms {
             return;
         }
 
-        int pivotIndex = partition(array, left, right);
+        int pivotIndex = hoarePartition(array, left, right);
 
         if (pivotIndex > n) {
-            introSelect(array, left, pivotIndex - 1, n, depthLimit - 1); // Ищем в левой части
+            introSelect(array, left, pivotIndex - 1, n, depthLimit - 1);
         } else if (pivotIndex < n) {
-            introSelect(array, pivotIndex + 1, right, n, depthLimit - 1); // Ищем в правой части
+            introSelect(array, pivotIndex + 1, right, n, depthLimit - 1);
         }
     }
 
-    private static <T extends Comparable<T>> int partition(T[] arr, int low, int high) {
+    private static <T extends Comparable<T>> int hoarePartition(T[] arr, int low, int high) {
         T pivot = arr[high];
         int pivotloc = low;
         for (int i = low; i <= high; i++) {
@@ -56,7 +57,6 @@ public class SortingAlgorithms {
     }
 
     public static <T extends Comparable<T>> void merge(T[] arr, T[] l, T[] r, int left, int right) {
-
         int i = 0;
         int j = 0;
         int k = 0;
