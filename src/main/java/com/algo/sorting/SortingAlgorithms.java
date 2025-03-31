@@ -1,9 +1,8 @@
-package com.algo.nth_element;
+package com.algo.sorting;
 
 import java.lang.reflect.Array;
-import java.util.Arrays;
 
-public class NthElementUtil {
+public class SortingAlgorithms {
     public static <T extends Comparable<T>> void nthElement(T[] array, int n) {
         if (array == null || n < 0 || n >= array.length) {
             throw new IllegalArgumentException("Index n is out of range");

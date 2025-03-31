@@ -1,4 +1,4 @@
-package com.algo.nth_element;
+package com.algo.sorting;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 import java.util.Arrays;
 import java.util.Random;
 
-public class NthElementUtilBenchmarkTest {
+public class SortingAlgorithmsBenchmarkTest {
     private static final Random random = new Random();
     private static final int NUM_RUNS = 10; // Количество запусков для усреднения
     private static final int ARRAY_SIZE = 100000; // Размер массива
@@ -21,14 +21,14 @@ public class NthElementUtilBenchmarkTest {
     public void randomBenchmarkNthElement() {
         int index = ARRAY_SIZE/2;
         for (int i = 0; i < 5; i++) {
-            NthElementUtil.nthElement(array, index);
+            SortingAlgorithms.nthElement(array, index);
         }
 
         long totalDuration = 0;
         for (int i = 0; i < NUM_RUNS; i++) {
             Integer[] testArray = array.clone();
             long startTime = System.nanoTime();
-            NthElementUtil.nthElement(testArray, index);
+            SortingAlgorithms.nthElement(testArray, index);
             long endTime = System.nanoTime();
             totalDuration += (endTime - startTime);
         }
@@ -41,7 +41,7 @@ public class NthElementUtilBenchmarkTest {
     public void sortedBenchmarkNthElement() {
         int index = ARRAY_SIZE/2;
         for (int i = 0; i < 5; i++) {
-            NthElementUtil.nthElement(array, index);
+            SortingAlgorithms.nthElement(array, index);
         }
 
         long totalDuration = 0;
@@ -49,7 +49,7 @@ public class NthElementUtilBenchmarkTest {
         for (int i = 0; i < NUM_RUNS; i++) {
             Integer[] testArray = array.clone(); // Клонируем массив для каждого запуска
             long startTime = System.nanoTime();
-            NthElementUtil.nthElement(testArray, index);
+            SortingAlgorithms.nthElement(testArray, index);
             long endTime = System.nanoTime();
             totalDuration += (endTime - startTime);
         }
@@ -68,7 +68,7 @@ public class NthElementUtilBenchmarkTest {
 
             int index = random.nextInt(n);
 
-            NthElementUtil.nthElement(arr, index);
+            SortingAlgorithms.nthElement(arr, index);
             Assertions.assertEquals(sorted_arr[index], arr[index]);
         }
     }
