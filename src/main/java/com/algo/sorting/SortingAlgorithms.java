@@ -18,6 +18,11 @@ public class SortingAlgorithms {
                                                               int right,
                                                               int n,
                                                               int depthLimit) {
+        if (array.length < 20) {
+            bubbleSort(array);
+            return;
+        }
+
         if (depthLimit == 0) {
             mergeSort(array, array.length);
             return;
@@ -56,7 +61,7 @@ public class SortingAlgorithms {
         array[j] = temp;
     }
 
-    public static <T extends Comparable<T>> void merge(T[] arr, T[] l, T[] r, int left, int right) {
+    private static <T extends Comparable<T>> void merge(T[] arr, T[] l, T[] r, int left, int right) {
         int i = 0;
         int j = 0;
         int k = 0;
@@ -79,7 +84,7 @@ public class SortingAlgorithms {
         return (T[]) Array.newInstance(clazz, size);
     }
 
-    public static <T extends Comparable<T>> void mergeSort(T[] arr, int n) {
+    private static <T extends Comparable<T>> void mergeSort(T[] arr, int n) {
         if (n < 2) {
             return;
         }
@@ -93,5 +98,24 @@ public class SortingAlgorithms {
         mergeSort(r, n - mid);
 
         merge(arr, l, r, mid, n - mid);
+    }
+
+    private static <T extends Comparable<T>> void bubbleSort(T[] arr) {
+        boolean swapped;
+        int n = arr.length;
+        for (int i = 0; i < n - 1; i++) {
+            swapped = false;
+            for (int j = 0; j < n - i - 1; j++) {
+                if (arr[j].compareTo(arr[j + 1]) > 0) {
+                    T temp = arr[j];
+                    arr[j] = arr[j + 1];
+                    arr[j + 1] = temp;
+                    swapped = true; // Установим флаг, что была перестановка
+                }
+            }
+            if (!swapped) {
+                break;
+            }
+        }
     }
 }
