@@ -24,7 +24,7 @@ public class SortingAlgorithms {
         }
 
         if (depthLimit == 0) {
-            mergeSort(array, array.length);
+            mergeSort(array);
             return;
         }
 
@@ -61,43 +61,40 @@ public class SortingAlgorithms {
         array[j] = temp;
     }
 
-    private static <T extends Comparable<T>> void merge(T[] arr, T[] l, T[] r, int left, int right) {
-        int i = 0;
-        int j = 0;
-        int k = 0;
-        while (i < left && j < right) {
-            if (l[i].compareTo(r[j]) <= 0) {
-                arr[k++] = l[i++];
-            } else {
-                arr[k++] = r[j++];
-            }
-        }
-        while (i < left) {
-            arr[k++] = l[i++];
-        }
-        while (j < right) {
-            arr[k++] = r[j++];
-        }
+    public static <T extends Comparable<T>> void mergeSort(T[] arr) {
+        @SuppressWarnings("unchecked")
+        T[] aux = (T[]) Array.newInstance(arr.getClass().getComponentType(), arr.length);
+        mergeSort(arr, aux, 0, arr.length);
     }
 
-    private static <T> T[] createArray(Class<T> clazz, int size) {
-        return (T[]) Array.newInstance(clazz, size);
-    }
-
-    private static <T extends Comparable<T>> void mergeSort(T[] arr, int n) {
-        if (n < 2) {
+    private static <T extends Comparable<T>> void mergeSort(T[] arr, T[] aux, int low, int high) {
+        if (high - low < 2) {
             return;
         }
-        int mid = n / 2;
-        T[] l = createArray((Class<T>) arr.getClass().getComponentType(), mid);
-        T[] r = createArray((Class<T>) arr.getClass().getComponentType(), n - mid);
+        int mid = (low + high) / 2;
+        mergeSort(arr, aux, low, mid);
+        mergeSort(arr, aux, mid, high);
+        merge(arr, aux, low, mid, high);
+    }
 
-        System.arraycopy(arr, 0, l, 0, mid);
-        if (n - mid >= 0) System.arraycopy(arr, mid, r, 0, n - mid);
-        mergeSort(l, mid);
-        mergeSort(r, n - mid);
+    private static <T extends Comparable<T>> void merge(T[] arr, T[] aux, int low, int mid, int high) {
+        System.arraycopy(arr, low, aux, low, high - low);
 
-        merge(arr, l, r, mid, n - mid);
+        int i = low;
+        int j = mid;
+        int k = low;
+
+        // Пошаговое слияние из aux обратно в arr
+        while (i < mid && j < high) {
+            if (aux[i].compareTo(aux[j]) <= 0) {
+                arr[k++] = aux[i++];
+            } else {
+                arr[k++] = aux[j++];
+            }
+        }
+        while (i < mid) {
+            arr[k++] = aux[i++];
+        }
     }
 
     private static <T extends Comparable<T>> void bubbleSort(T[] arr) {
