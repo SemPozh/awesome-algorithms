@@ -1,4 +1,4 @@
-package com.algo.structures.hash;
+package com.algo.structure.hash;
 
 import java.util.List;
 import java.util.Random;

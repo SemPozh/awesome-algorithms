@@ -1,8 +1,8 @@
-package com.algo.structures.hash.factory;
+package com.algo.structure.hash.factory;
 
-import com.algo.structures.hash.HashFunction;
-import com.algo.structures.hash.HashFunctionFactory;
-import com.algo.structures.hash.function.IntHashFunction;
+import com.algo.structure.hash.HashFunction;
+import com.algo.structure.hash.HashFunctionFactory;
+import com.algo.structure.hash.function.IntHashFunction;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;

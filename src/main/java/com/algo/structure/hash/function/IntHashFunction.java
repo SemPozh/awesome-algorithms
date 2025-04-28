@@ -1,6 +1,6 @@
-package com.algo.structures.hash.function;
+package com.algo.structure.hash.function;
 
-import com.algo.structures.hash.HashFunction;
+import com.algo.structure.hash.HashFunction;
 
 public class IntHashFunction implements HashFunction<Integer> {
     private final int seed;
