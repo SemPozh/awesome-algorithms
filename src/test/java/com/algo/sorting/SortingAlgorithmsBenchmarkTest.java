@@ -92,7 +92,7 @@ public class SortingAlgorithmsBenchmarkTest {
         long[] yData = new long[18];
 
         int n = 5;
-        for (int i = 0; i < 182; i++) {
+        for (int i = 0; i < 18; i++) {
             Integer[] arr = new Integer[n];
             generateArray(arr);
 
