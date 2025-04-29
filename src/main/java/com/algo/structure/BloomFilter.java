@@ -4,7 +4,6 @@ import com.algo.structure.hash.HashFunction;
 import com.algo.structure.hash.factory.IntHashFunctionFactory;
 import com.algo.structure.hash.factory.ObjectHashFunctionFactory;
 import com.algo.structure.hash.factory.StringHashFunctionFactory;
-
 import java.util.BitSet;
 import java.util.List;
 import java.util.Random;
