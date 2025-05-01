@@ -28,7 +28,7 @@ public class BloomFilterTest {
         double p = 0.01; // Желаемая вероятность ложных срабатываний
         int n = 1000;  // Количество элементов
         int k = (int) Math.round(-Math.log(p) / Math.log(2)); // Оптимальное k при заданном p
-        int bitsetSize = (int) Math.ceil(-n * Math.log(p) / (Math.pow(Math.log(2), 2))); // Теоретический размер
+        int bitsetSize = (int) Math.ceil(-n * Math.log(p) / (Math.pow(Math.log(2), 2)));
         double eps = 0.1;
 
         double actualProbability = getActualProbability(bitsetSize, k, n);

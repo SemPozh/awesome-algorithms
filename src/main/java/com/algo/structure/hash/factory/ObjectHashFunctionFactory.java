@@ -3,7 +3,6 @@ package com.algo.structure.hash.factory;
 import com.algo.structure.hash.HashFunction;
 import com.algo.structure.hash.HashFunctionFactory;
 import com.algo.structure.hash.function.ObjectHashFunction;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;

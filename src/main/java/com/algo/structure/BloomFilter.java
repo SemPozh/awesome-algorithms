@@ -52,7 +52,9 @@ public class BloomFilter {
     public boolean mightContainInt(int element) {
         for (HashFunction<Integer> f : intHashFunctions) {
             int hash = f.hash(element);
-            if (!bitSet.get(Math.abs(hash % size))) return false;
+            if (!bitSet.get(Math.abs(hash % size))) {
+                return false;
+            }
         }
         return true;
     }
@@ -60,7 +62,9 @@ public class BloomFilter {
     public boolean mightContainString(String element) {
         for (HashFunction<String> f : stringHashFunctions) {
             int hash = f.hash(element);
-            if (!bitSet.get(Math.abs(hash % size))) return false;
+            if (!bitSet.get(Math.abs(hash % size))) {
+                return false;
+            }
         }
         return true;
     }
@@ -68,7 +72,9 @@ public class BloomFilter {
     public boolean mightContainObject(Object element) {
         for (HashFunction<Object> f : objectHashFunctions) {
             int hash = f.hash(element);
-            if (!bitSet.get(Math.abs(hash % size))) return false;
+            if (!bitSet.get(Math.abs(hash % size))) {
+                return false;
+            }
         }
         return true;
     }
@@ -76,7 +82,9 @@ public class BloomFilter {
     public double estimateElementCount() {
         int bitCount = bitSet.cardinality();
         double ratio = (double) bitCount / size;
-        if (ratio == 0) return 0;
+        if (ratio == 0) {
+            return 0;
+        }
         int k = intHashFunctions.size(); // Предполагаем, что k одинаково для всех типов
         return -size * Math.log(1 - ratio) / k;
     }

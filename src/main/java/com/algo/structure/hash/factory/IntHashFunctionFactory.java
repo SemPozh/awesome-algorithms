@@ -17,4 +17,3 @@ public class IntHashFunctionFactory implements HashFunctionFactory<Integer> {
         return functions;
     }
 }
-
