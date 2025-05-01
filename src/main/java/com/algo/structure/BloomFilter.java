@@ -26,31 +26,31 @@ public class BloomFilter {
         this.objectHashFunctions = objectFactory.buildHashFunctions(hashFunctionsCount, random);
     }
 
+    private int calculateBitSetIndex(int hash) {
+        return Math.abs(hash % bitSet.size());
+    }
+
     public void putInt(int element) {
         for (HashFunction<Integer> f : intHashFunctions) {
-            int hash = f.hash(element);
-            bitSet.set(Math.abs(hash % bitSet.size()));
+            bitSet.set(calculateBitSetIndex(f.hash(element)));
         }
     }
 
     public void putString(String element) {
         for (HashFunction<String> f : stringHashFunctions) {
-            int hash = f.hash(element);
-            bitSet.set(Math.abs(hash % bitSet.size()));
+            bitSet.set(calculateBitSetIndex(f.hash(element)));
         }
     }
 
     public void putObject(Object element) {
         for (HashFunction<Object> f : objectHashFunctions) {
-            int hash = f.hash(element);
-            bitSet.set(Math.abs(hash % bitSet.size()));
+            bitSet.set(calculateBitSetIndex(f.hash(element)));
         }
     }
 
     public boolean mightContainInt(int element) {
         for (HashFunction<Integer> f : intHashFunctions) {
-            int hash = f.hash(element);
-            if (!bitSet.get(Math.abs(hash % bitSet.size()))) {
+            if (!bitSet.get(calculateBitSetIndex(f.hash(element)))) {
                 return false;
             }
         }
@@ -59,8 +59,7 @@ public class BloomFilter {
 
     public boolean mightContainString(String element) {
         for (HashFunction<String> f : stringHashFunctions) {
-            int hash = f.hash(element);
-            if (!bitSet.get(Math.abs(hash % bitSet.size()))) {
+            if (!bitSet.get(calculateBitSetIndex(f.hash(element)))) {
                 return false;
             }
         }
@@ -69,20 +68,19 @@ public class BloomFilter {
 
     public boolean mightContainObject(Object element) {
         for (HashFunction<Object> f : objectHashFunctions) {
-            int hash = f.hash(element);
-            if (!bitSet.get(Math.abs(hash % bitSet.size()))) {
+            if (!bitSet.get(calculateBitSetIndex(f.hash(element)))) {
                 return false;
             }
         }
         return true;
     }
 
-    public double estimateElementCount() {
+    public double estimatedCardinality() {
         int bitCount = bitSet.cardinality();
-        double ratio = (double) bitCount / bitSet.size();
-        if (ratio == 0) {
+        if (bitCount == 0) {
             return 0;
         }
+        double ratio = (double) bitCount / bitSet.size();
         return -bitSet.size() * Math.log(1 - ratio) / intHashFunctions.size();
     }
 }

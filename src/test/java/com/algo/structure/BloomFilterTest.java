@@ -14,12 +14,12 @@ public class BloomFilterTest {
     @Test
     void testErrorProbability() {
         int bitsetSize = 1000;
-        int k = 5;    // Количество хэш-функций
-        int n = 100;  // Количество элементов
+        int hashFunctionsCount =  5;
+        int elementsCount = 100;  // Количество элементов
         double eps = 0.01;
 
-        double actualProbability = getActualProbability(bitsetSize, k, n);
-        double expectedProbability = Math.pow(1 - Math.exp(-k * n / (double) bitsetSize), k);
+        double actualProbability = getActualProbability(bitsetSize, hashFunctionsCount, elementsCount);
+        double expectedProbability = Math.pow(1 - Math.exp(-hashFunctionsCount * elementsCount / (double) bitsetSize), hashFunctionsCount);
         assertTrue(Math.abs(actualProbability - expectedProbability) < eps);
     }
 
@@ -37,7 +37,7 @@ public class BloomFilterTest {
 
     @Test
     public void testEmptyFilter() {
-        BloomFilter filter = new BloomFilter(
+        var filter = new BloomFilter(
                 1000,
                 new IntHashFunctionFactory(),
                 new StringHashFunctionFactory(),
@@ -46,7 +46,7 @@ public class BloomFilterTest {
                 new Random(42)
         );
 
-        assertEquals(0.0, filter.estimateElementCount(), 0.001);
+        assertEquals(0.0, filter.estimatedCardinality(), 0.001);
     }
 
     @Test
@@ -56,7 +56,7 @@ public class BloomFilterTest {
         int n = 500;    // Реальное количество элементов
         double tolerance = 0.20; // Допустимое отклонение 20%
 
-        BloomFilter filter = new BloomFilter(
+        var filter = new BloomFilter(
                 bitsetSize,
                 new IntHashFunctionFactory(),
                 new StringHashFunctionFactory(),
@@ -71,14 +71,14 @@ public class BloomFilterTest {
         }
 
         // Получаем оценку
-        double estimated = filter.estimateElementCount();
+        double estimated = filter.estimatedCardinality();
 
         // Проверяем, что оценка близка к реальному n
         assertTrue(Math.abs(estimated - n) <= n * tolerance);
     }
 
     private static double getActualProbability(int bitsetSize, int k, int n) {
-        BloomFilter bloomFilter = new BloomFilter(
+        var bloomFilter = new BloomFilter(
                 bitsetSize,
                 new IntHashFunctionFactory(),
                 new StringHashFunctionFactory(),
