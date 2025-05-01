@@ -11,6 +11,6 @@ public class ObjectHashFunction implements HashFunction<Object> {
 
     @Override
     public int hash(Object element) {
-        return (element.hashCode() ^ seed) * 0x9e3775cd;
+        return element.hashCode() ^ seed;
     }
 }

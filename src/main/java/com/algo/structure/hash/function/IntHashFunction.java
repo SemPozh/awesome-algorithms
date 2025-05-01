@@ -11,6 +11,6 @@ public class IntHashFunction implements HashFunction<Integer> {
 
     @Override
     public int hash(Integer element) {
-        return (element ^ seed) * 0x9e3775cd;
+        return Integer.hashCode(element) ^ seed;
     }
 }

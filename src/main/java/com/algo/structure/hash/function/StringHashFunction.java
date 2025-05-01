@@ -11,10 +11,6 @@ public class StringHashFunction implements HashFunction<String> {
 
     @Override
     public int hash(String element) {
-        int hash = seed;
-        for (char c : element.toCharArray()) {
-            hash = (hash ^ c) * 16777619;
-        }
-        return hash;
+        return element.hashCode() ^ seed;
     }
 }
