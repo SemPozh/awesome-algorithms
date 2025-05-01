@@ -4,5 +4,5 @@ import java.util.List;
 import java.util.Random;
 
 public interface HashFunctionFactory<T> {
-    List<HashFunction<T>> buildHashFunctions(int k, Random random);
+    List<HashFunction<T>> buildHashFunctions(int hashFunctionsCount, Random random);
 }

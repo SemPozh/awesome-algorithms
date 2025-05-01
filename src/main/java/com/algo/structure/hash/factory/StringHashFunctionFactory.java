@@ -9,9 +9,9 @@ import java.util.Random;
 
 public class StringHashFunctionFactory implements HashFunctionFactory<String> {
     @Override
-    public List<HashFunction<String>> buildHashFunctions(int k, Random random) {
+    public List<HashFunction<String>> buildHashFunctions(int hashFunctionsCount, Random random) {
         List<HashFunction<String>> functions = new ArrayList<>();
-        for (int i = 0; i < k; i++) {
+        for (int i = 0; i < hashFunctionsCount; i++) {
             functions.add(new StringHashFunction(random.nextInt()));
         }
         return functions;

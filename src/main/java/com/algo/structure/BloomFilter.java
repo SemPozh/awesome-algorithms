@@ -10,7 +10,6 @@ import java.util.Random;
 
 public class BloomFilter {
     private final BitSet bitSet;
-    private final int size;
     private final List<HashFunction<Integer>> intHashFunctions;
     private final List<HashFunction<String>> stringHashFunctions;
     private final List<HashFunction<Object>> objectHashFunctions;
@@ -19,40 +18,39 @@ public class BloomFilter {
                        IntHashFunctionFactory intFactory,
                        StringHashFunctionFactory stringFactory,
                        ObjectHashFunctionFactory objectFactory,
-                       int k,
+                       int hashFunctionsCount,
                        Random random) {
         this.bitSet = new BitSet(size);
-        this.size = size;
-        this.intHashFunctions = intFactory.buildHashFunctions(k, random);
-        this.stringHashFunctions = stringFactory.buildHashFunctions(k, random);
-        this.objectHashFunctions = objectFactory.buildHashFunctions(k, random);
+        this.intHashFunctions = intFactory.buildHashFunctions(hashFunctionsCount, random);
+        this.stringHashFunctions = stringFactory.buildHashFunctions(hashFunctionsCount, random);
+        this.objectHashFunctions = objectFactory.buildHashFunctions(hashFunctionsCount, random);
     }
 
     public void putInt(int element) {
         for (HashFunction<Integer> f : intHashFunctions) {
             int hash = f.hash(element);
-            bitSet.set(Math.abs(hash % size));
+            bitSet.set(Math.abs(hash % bitSet.size()));
         }
     }
 
     public void putString(String element) {
         for (HashFunction<String> f : stringHashFunctions) {
             int hash = f.hash(element);
-            bitSet.set(Math.abs(hash % size));
+            bitSet.set(Math.abs(hash % bitSet.size()));
         }
     }
 
     public void putObject(Object element) {
         for (HashFunction<Object> f : objectHashFunctions) {
             int hash = f.hash(element);
-            bitSet.set(Math.abs(hash % size));
+            bitSet.set(Math.abs(hash % bitSet.size()));
         }
     }
 
     public boolean mightContainInt(int element) {
         for (HashFunction<Integer> f : intHashFunctions) {
             int hash = f.hash(element);
-            if (!bitSet.get(Math.abs(hash % size))) {
+            if (!bitSet.get(Math.abs(hash % bitSet.size()))) {
                 return false;
             }
         }
@@ -62,7 +60,7 @@ public class BloomFilter {
     public boolean mightContainString(String element) {
         for (HashFunction<String> f : stringHashFunctions) {
             int hash = f.hash(element);
-            if (!bitSet.get(Math.abs(hash % size))) {
+            if (!bitSet.get(Math.abs(hash % bitSet.size()))) {
                 return false;
             }
         }
@@ -72,7 +70,7 @@ public class BloomFilter {
     public boolean mightContainObject(Object element) {
         for (HashFunction<Object> f : objectHashFunctions) {
             int hash = f.hash(element);
-            if (!bitSet.get(Math.abs(hash % size))) {
+            if (!bitSet.get(Math.abs(hash % bitSet.size()))) {
                 return false;
             }
         }
@@ -81,11 +79,10 @@ public class BloomFilter {
 
     public double estimateElementCount() {
         int bitCount = bitSet.cardinality();
-        double ratio = (double) bitCount / size;
+        double ratio = (double) bitCount / bitSet.size();
         if (ratio == 0) {
             return 0;
         }
-        int k = intHashFunctions.size(); // Предполагаем, что k одинаково для всех типов
-        return -size * Math.log(1 - ratio) / k;
+        return -bitSet.size() * Math.log(1 - ratio) / intHashFunctions.size();
     }
 }
