@@ -74,6 +74,10 @@ public class BloomFilter {
             return 0;
         }
         double ratio = (double) bitCount / bitSet.size();
-        return -bitSet.size() * Math.log(1 - ratio) / intHashFunctions.size();
+        return -bitSet.size() * Math.log(1 - ratio) / getHashFunctionsCount();
+    }
+
+    private int getHashFunctionsCount() {
+        return intHashFunctions.size();
     }
 }

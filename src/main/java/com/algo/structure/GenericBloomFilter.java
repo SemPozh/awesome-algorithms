@@ -8,22 +8,10 @@ public class GenericBloomFilter<T> {
     }
 
     public void put(T element) {
-        if (element instanceof Integer) {
-            bloomFilter.putInt((Integer) element);
-        } else if (element instanceof String) {
-            bloomFilter.putString((String) element);
-        } else {
-            bloomFilter.putObject(element);
-        }
+        bloomFilter.putObject(element);
     }
 
     public boolean mightContain(T element) {
-        if (element instanceof Integer) {
-            return bloomFilter.mightContainInt((Integer) element);
-        } else if (element instanceof String) {
-            return bloomFilter.mightContainString((String) element);
-        } else {
-            return bloomFilter.mightContainObject(element);
-        }
+        return bloomFilter.mightContainObject(element);
     }
 }

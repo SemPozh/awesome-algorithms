@@ -63,11 +63,13 @@ public class BloomFilterConfig {
     }
 
     private int calculateOptimalBitSetSize() {
-        return (int) Math.ceil(-expectedElementsCount * Math.log(falsePositiveProbability) / (Math.pow(Math.log(2), 2)));
+        return (int) Math.ceil(-expectedElementsCount * Math.log(falsePositiveProbability)
+                / Math.pow(Math.log(2), 2));
     }
 
     private int calculateOptimalHashFunctionsCount() {
-        return Math.max(1, (int) Math.round(((double) bitSetSize / expectedElementsCount) * Math.log(2)));
+        return Math.max(1, (int) Math.round(((double) bitSetSize / expectedElementsCount)
+                * Math.log(2)));
     }
 
     public List<IntHashFunction> getIntHashFunctions() {
