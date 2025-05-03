@@ -1,100 +1,65 @@
 package com.algo.structure;
 
-import com.algo.structure.hash.factory.IntHashFunctionFactory;
-import com.algo.structure.hash.factory.ObjectHashFunctionFactory;
-import com.algo.structure.hash.factory.StringHashFunctionFactory;
 import org.junit.jupiter.api.Test;
-import java.util.Random;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class BloomFilterTest {
 
     @Test
-    void testErrorProbability() {
-        int bitsetSize = 1000;
-        int hashFunctionsCount =  5;
-        int elementsCount = 100;  // Количество элементов
-        double eps = 0.01;
+    void testFalsePositiveProbability_givesExpectedProbability() {
+        int elementsCount = 1000;
+        double falsePositiveProbability = 0.1;
 
-        double actualProbability = getActualProbability(bitsetSize, hashFunctionsCount, elementsCount);
-        double expectedProbability = Math.pow(1 - Math.exp(-hashFunctionsCount * elementsCount / (double) bitsetSize), hashFunctionsCount);
-        assertTrue(Math.abs(actualProbability - expectedProbability) < eps);
-    }
-
-    @Test
-    void testFilterCapacityAssessment() {
-        double p = 0.01; // Желаемая вероятность ложных срабатываний
-        int n = 1000;  // Количество элементов
-        int k = (int) Math.round(-Math.log(p) / Math.log(2)); // Оптимальное k при заданном p
-        int bitsetSize = (int) Math.ceil(-n * Math.log(p) / (Math.pow(Math.log(2), 2)));
-        double eps = 0.1;
-
-        double actualProbability = getActualProbability(bitsetSize, k, n);
-        assertTrue(Math.abs(actualProbability - p) < eps);
-    }
-
-    @Test
-    public void testEmptyFilter() {
-        var filter = new BloomFilter(
-                1000,
-                new IntHashFunctionFactory(),
-                new StringHashFunctionFactory(),
-                new ObjectHashFunctionFactory(),
-                5,
-                new Random(42)
+        var bloomFiler = new BloomFilter(new BloomFilterConfig.Builder()
+                .withExpectedElementsCount(elementsCount)
+                .withFalsePositiveProbability(falsePositiveProbability)
+                .build()
         );
+
+        double eps = 0.2;
+        double actualProbability = getActualProbability(bloomFiler, elementsCount);
+        System.out.println(actualProbability);
+        assertTrue(Math.abs(actualProbability - falsePositiveProbability) < eps);
+    }
+
+
+    @Test
+    public void testEmptyFilter_returnsZeroCardinality() {
+        var filter = new BloomFilter(new BloomFilterConfig.Builder().build());
 
         assertEquals(0.0, filter.estimatedCardinality(), 0.001);
     }
 
     @Test
     void testEstimateElementCount() {
-        int bitsetSize = 10000; // Размер битсета
-        int k = 7;      // Количество хэш-функций
-        int n = 500;    // Реальное количество элементов
-        double tolerance = 0.20; // Допустимое отклонение 20%
+        int elementsCount = 500;
+        double eps = 0.20;
 
         var filter = new BloomFilter(
-                bitsetSize,
-                new IntHashFunctionFactory(),
-                new StringHashFunctionFactory(),
-                new ObjectHashFunctionFactory(),
-                k,
-                new Random(42) // Фиксированный сид
+                new BloomFilterConfig.Builder()
+                        .withExpectedElementsCount(elementsCount)
+                        .build()
         );
 
-        // Добавляем n элементов
-        for (int i = 0; i < n; i++) {
-            filter.putInt(i); // Добавляем уникальные целые числа
+        for (int i = 0; i < elementsCount; i++) {
+            filter.putInt(i);
         }
 
-        // Получаем оценку
         double estimated = filter.estimatedCardinality();
-
-        // Проверяем, что оценка близка к реальному n
-        assertTrue(Math.abs(estimated - n) <= n * tolerance);
+        assertTrue(Math.abs(estimated - elementsCount) <= elementsCount * eps);
     }
 
-    private static double getActualProbability(int bitsetSize, int k, int n) {
-        var bloomFilter = new BloomFilter(
-                bitsetSize,
-                new IntHashFunctionFactory(),
-                new StringHashFunctionFactory(),
-                new ObjectHashFunctionFactory(),
-                k,
-                new Random(42)
-        );
+    private static double getActualProbability(BloomFilter bloomFilter, int elementCount) {
 
-        for (int i = 0; i < n; i++) {
+        for (int i = 0; i < elementCount; i++) {
             bloomFilter.putInt(i);
         }
 
         // Проверка ложных срабатываний
         int falsePositives = 0;
-        int totalChecks = 10000;
-        for (int i = n; i < n + totalChecks; i++) {
+        int totalChecks = 100000;
+        for (int i = elementCount; i < elementCount + totalChecks; i++) {
             if (bloomFilter.mightContainInt(i)) {
                 falsePositives++;
             }

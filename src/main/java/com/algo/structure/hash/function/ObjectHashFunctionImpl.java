@@ -1,11 +1,11 @@
 package com.algo.structure.hash.function;
 
-import com.algo.structure.hash.HashFunction;
+import com.algo.structure.hash.function.interfaces.ObjectHashFunction;
 
-public class ObjectHashFunction implements HashFunction<Object> {
+public class ObjectHashFunctionImpl implements ObjectHashFunction {
     private final int seed;
 
-    public ObjectHashFunction(int seed) {
+    public ObjectHashFunctionImpl(int seed) {
         this.seed = seed;
     }
 

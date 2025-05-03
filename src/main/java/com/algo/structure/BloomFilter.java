@@ -1,29 +1,22 @@
 package com.algo.structure;
 
-import com.algo.structure.hash.HashFunction;
-import com.algo.structure.hash.factory.IntHashFunctionFactory;
-import com.algo.structure.hash.factory.ObjectHashFunctionFactory;
-import com.algo.structure.hash.factory.StringHashFunctionFactory;
+import com.algo.structure.hash.function.interfaces.IntHashFunction;
+import com.algo.structure.hash.function.interfaces.ObjectHashFunction;
+import com.algo.structure.hash.function.interfaces.StringHashFunction;
 import java.util.BitSet;
 import java.util.List;
-import java.util.Random;
 
 public class BloomFilter {
     private final BitSet bitSet;
-    private final List<HashFunction<Integer>> intHashFunctions;
-    private final List<HashFunction<String>> stringHashFunctions;
-    private final List<HashFunction<Object>> objectHashFunctions;
+    private final List<IntHashFunction> intHashFunctions;
+    private final List<StringHashFunction> stringHashFunctions;
+    private final List<ObjectHashFunction> objectHashFunctions;
 
-    public BloomFilter(int size,
-                       IntHashFunctionFactory intFactory,
-                       StringHashFunctionFactory stringFactory,
-                       ObjectHashFunctionFactory objectFactory,
-                       int hashFunctionsCount,
-                       Random random) {
-        this.bitSet = new BitSet(size);
-        this.intHashFunctions = intFactory.buildHashFunctions(hashFunctionsCount, random);
-        this.stringHashFunctions = stringFactory.buildHashFunctions(hashFunctionsCount, random);
-        this.objectHashFunctions = objectFactory.buildHashFunctions(hashFunctionsCount, random);
+    public BloomFilter(BloomFilterConfig config) {
+        this.bitSet = new BitSet(config.getBitSetSize());
+        this.intHashFunctions = config.getIntHashFunctions();
+        this.stringHashFunctions = config.getStringHashFunctions();
+        this.objectHashFunctions = config.getObjectHashFunctions();
     }
 
     private int calculateBitSetIndex(int hash) {
@@ -31,26 +24,26 @@ public class BloomFilter {
     }
 
     public void putInt(int element) {
-        for (HashFunction<Integer> f : intHashFunctions) {
-            bitSet.set(calculateBitSetIndex(f.hash(element)));
+        for (IntHashFunction function : intHashFunctions) {
+            bitSet.set(calculateBitSetIndex(function.hash(element)));
         }
     }
 
     public void putString(String element) {
-        for (HashFunction<String> f : stringHashFunctions) {
-            bitSet.set(calculateBitSetIndex(f.hash(element)));
+        for (StringHashFunction function : stringHashFunctions) {
+            bitSet.set(calculateBitSetIndex(function.hash(element)));
         }
     }
 
     public void putObject(Object element) {
-        for (HashFunction<Object> f : objectHashFunctions) {
-            bitSet.set(calculateBitSetIndex(f.hash(element)));
+        for (ObjectHashFunction function : objectHashFunctions) {
+            bitSet.set(calculateBitSetIndex(function.hash(element)));
         }
     }
 
     public boolean mightContainInt(int element) {
-        for (HashFunction<Integer> f : intHashFunctions) {
-            if (!bitSet.get(calculateBitSetIndex(f.hash(element)))) {
+        for (IntHashFunction function : intHashFunctions) {
+            if (!bitSet.get(calculateBitSetIndex(function.hash(element)))) {
                 return false;
             }
         }
@@ -58,8 +51,8 @@ public class BloomFilter {
     }
 
     public boolean mightContainString(String element) {
-        for (HashFunction<String> f : stringHashFunctions) {
-            if (!bitSet.get(calculateBitSetIndex(f.hash(element)))) {
+        for (StringHashFunction function : stringHashFunctions) {
+            if (!bitSet.get(calculateBitSetIndex(function.hash(element)))) {
                 return false;
             }
         }
@@ -67,8 +60,8 @@ public class BloomFilter {
     }
 
     public boolean mightContainObject(Object element) {
-        for (HashFunction<Object> f : objectHashFunctions) {
-            if (!bitSet.get(calculateBitSetIndex(f.hash(element)))) {
+        for (ObjectHashFunction function : objectHashFunctions) {
+            if (!bitSet.get(calculateBitSetIndex(function.hash(element)))) {
                 return false;
             }
         }

@@ -1,11 +1,11 @@
 package com.algo.structure.hash.function;
 
-import com.algo.structure.hash.HashFunction;
+import com.algo.structure.hash.function.interfaces.StringHashFunction;
 
-public class StringHashFunction implements HashFunction<String> {
+public class StringHashFunctionImpl implements StringHashFunction {
     private final int seed;
 
-    public StringHashFunction(int seed) {
+    public StringHashFunctionImpl(int seed) {
         this.seed = seed;
     }
 
