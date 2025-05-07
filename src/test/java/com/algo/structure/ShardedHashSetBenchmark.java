@@ -1,12 +1,25 @@
 package com.algo.structure;
 
 import com.algo.structure.set.ShardedHashSet;
-import org.openjdk.jmh.annotations.*;
+import org.openjdk.jmh.annotations.BenchmarkMode;
+import org.openjdk.jmh.annotations.OutputTimeUnit;
+import org.openjdk.jmh.annotations.State;
+import org.openjdk.jmh.annotations.Warmup;
+import org.openjdk.jmh.annotations.Measurement;
+import org.openjdk.jmh.annotations.Param;
+import org.openjdk.jmh.annotations.Setup;
+import org.openjdk.jmh.annotations.Level;
+import org.openjdk.jmh.annotations.Benchmark;
+import org.openjdk.jmh.annotations.Mode;
+import org.openjdk.jmh.annotations.Scope;
 import org.openjdk.jmh.runner.Runner;
 import org.openjdk.jmh.runner.options.Options;
 import org.openjdk.jmh.runner.options.OptionsBuilder;
-
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
 @State(Scope.Thread)
@@ -31,7 +44,7 @@ public class ShardedHashSetBenchmark {
             testData.add(new Object().toString());
         }
         shardedHashSet = new ShardedHashSet<>(partitionsCount,
-                elementsCount/partitionsCount,
+                elementsCount / partitionsCount,
                 falsePositiveProbability);
 
         hashSet = new HashSet<>();
@@ -44,7 +57,7 @@ public class ShardedHashSetBenchmark {
         }
         Random random = new Random();
         for (int i = 0; i < 10; i++) {
-            shardedHashSet.contains(testData.get(random.nextInt(0, elementsCount-1)));
+            shardedHashSet.contains(testData.get(random.nextInt(0, elementsCount - 1)));
         }
     }
 
@@ -55,7 +68,7 @@ public class ShardedHashSetBenchmark {
         }
         Random random = new Random();
         for (int i = 0; i < 10; i++) {
-            hashSet.contains(testData.get(random.nextInt(0, elementsCount-1)));
+            hashSet.contains(testData.get(random.nextInt(0, elementsCount - 1)));
         }
     }
 

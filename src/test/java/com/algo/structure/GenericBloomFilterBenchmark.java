@@ -3,15 +3,22 @@ package com.algo.structure;
 import com.algo.structure.bloom.BloomFilter;
 import com.algo.structure.bloom.BloomFilterConfig;
 import com.algo.structure.bloom.GenericBloomFilter;
-import org.openjdk.jmh.annotations.*;
+import org.openjdk.jmh.annotations.BenchmarkMode;
+import org.openjdk.jmh.annotations.OutputTimeUnit;
+import org.openjdk.jmh.annotations.State;
+import org.openjdk.jmh.annotations.Warmup;
+import org.openjdk.jmh.annotations.Measurement;
+import org.openjdk.jmh.annotations.Param;
+import org.openjdk.jmh.annotations.Setup;
+import org.openjdk.jmh.annotations.Level;
+import org.openjdk.jmh.annotations.Benchmark;
+import org.openjdk.jmh.annotations.Scope;
+import org.openjdk.jmh.annotations.Mode;
 import org.openjdk.jmh.infra.Blackhole;
 import org.openjdk.jmh.runner.Runner;
 import org.openjdk.jmh.runner.options.Options;
 import org.openjdk.jmh.runner.options.OptionsBuilder;
 import org.openjdk.jol.info.GraphLayout;
-
-import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 @State(Scope.Thread)
@@ -42,7 +49,7 @@ public class GenericBloomFilterBenchmark {
 
         for (int i = 0; i < expectedElementsCount; i++) {
             testData[i] = i;
-            nonExistingData[i] = expectedElementsCount+i;
+            nonExistingData[i] = expectedElementsCount + i;
         }
     }
 
@@ -83,8 +90,9 @@ public class GenericBloomFilterBenchmark {
 
         long memoryUsage = GraphLayout.parseInstance(tempFilter).totalSize();
         blackhole.consume(tempFilter);
-        System.out.println("Elements: " + expectedElementsCount +
-                " Memory: " + memoryUsage + " bytes");
+        System.out.println(
+                "Elements: " + expectedElementsCount + " Memory: " + memoryUsage + " bytes"
+        );
     }
 
     public static void main(String[] args) throws Exception {
@@ -92,7 +100,9 @@ public class GenericBloomFilterBenchmark {
                 .include(BloomFilterBenchmark.class.getSimpleName())
                 .forks(1)
                 .result("generic_bloom_filter.csv")
-                .param("expectedElementsCount", "10", "25", "50", "100", "1000", "2000", "5000", "10000", "25000", "50000", "100000")
+                .param("expectedElementsCount",
+                        "10", "25", "50", "100", "1000", "2000",
+                                "5000", "10000", "25000", "50000", "100000")
                 .build();
 
         new Runner(opt).run();
