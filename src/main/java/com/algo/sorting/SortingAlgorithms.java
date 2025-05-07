@@ -77,7 +77,11 @@ public class SortingAlgorithms {
         merge(arr, aux, low, mid, high);
     }
 
-    private static <T extends Comparable<T>> void merge(T[] arr, T[] aux, int low, int mid, int high) {
+    private static <T extends Comparable<T>> void merge(T[] arr,
+                                                        T[] aux,
+                                                        int low,
+                                                        int mid,
+                                                        int high) {
         System.arraycopy(arr, low, aux, low, high - low);
 
         int i = low;

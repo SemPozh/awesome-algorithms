@@ -1,0 +1,21 @@
+Benchmark;Mode;Threads;Samples;Score;Score Error (99,9%);Unit;Param: elementsCount
+com.algo.structure.ShardedHashSetBenchmark.testHashSetPerformance;avgt;1;5;1,910205;0,567717;us/op;100
+com.algo.structure.ShardedHashSetBenchmark.testHashSetPerformance;avgt;1;5;19,502971;7,541108;us/op;1000
+com.algo.structure.ShardedHashSetBenchmark.testHashSetPerformance;avgt;1;5;274,574108;26,941337;us/op;10000
+com.algo.structure.ShardedHashSetBenchmark.testHashSetPerformance;avgt;1;5;4722,339445;531,039661;us/op;100000
+com.algo.structure.ShardedHashSetBenchmark.testHashSetPerformance;avgt;1;5;175280,73;49413,19614;us/op;1000000
+com.algo.structure.ShardedHashSetBenchmark.testShardedHashSetPerformance;avgt;1;5;18,38311;1,895326;us/op;100
+com.algo.structure.ShardedHashSetBenchmark.testShardedHashSetPerformance;avgt;1;5;175,512797;5,537145;us/op;1000
+com.algo.structure.ShardedHashSetBenchmark.testShardedHashSetPerformance;avgt;1;5;1939,310949;190,181908;us/op;10000
+com.algo.structure.ShardedHashSetBenchmark.testShardedHashSetPerformance;avgt;1;5;23560,74919;7149,839087;us/op;100000
+com.algo.structure.ShardedHashSetBenchmark.testShardedHashSetPerformance;avgt;1;5;599708,4067;443429,1733;us/op;1000000
+com.algo.structure.ShardedHashSetBenchmark.testHashSetPerformance;ss;1;5;50,88;53,283368;us/op;100
+com.algo.structure.ShardedHashSetBenchmark.testHashSetPerformance;ss;1;5;345,32;189,130796;us/op;1000
+com.algo.structure.ShardedHashSetBenchmark.testHashSetPerformance;ss;1;5;2360,62;2220,827955;us/op;10000
+com.algo.structure.ShardedHashSetBenchmark.testHashSetPerformance;ss;1;5;27892;52169,83661;us/op;100000
+com.algo.structure.ShardedHashSetBenchmark.testHashSetPerformance;ss;1;5;344706,08;187196,102;us/op;1000000
+com.algo.structure.ShardedHashSetBenchmark.testShardedHashSetPerformance;ss;1;5;293,04;312,941834;us/op;100
+com.algo.structure.ShardedHashSetBenchmark.testShardedHashSetPerformance;ss;1;5;877,32;508,546775;us/op;1000
+com.algo.structure.ShardedHashSetBenchmark.testShardedHashSetPerformance;ss;1;5;3681,26;1213,21901;us/op;10000
+com.algo.structure.ShardedHashSetBenchmark.testShardedHashSetPerformance;ss;1;5;32702,64;4793,014678;us/op;100000
+com.algo.structure.ShardedHashSetBenchmark.testShardedHashSetPerformance;ss;1;5;667427,22;268646,91;us/op;1000000
