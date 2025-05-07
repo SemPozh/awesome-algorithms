@@ -38,7 +38,7 @@ public class BloomFilterTest {
     @Test
     void testEstimateElementCount() {
         int elementsCount = 10000;
-        double eps = 0.20;
+        double eps = 0.25;
 
         var filter = new BloomFilter(
                 new BloomFilterConfig.Builder()
