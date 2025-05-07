@@ -59,3 +59,20 @@ estimatedCount = -m * ln(1 - X/m) / k,
 
 
 Тесты экспериментально подтвердили точность методов
+
+## Benchmarks
+Были проведены следующие тесты производительности:
+1) Замеры времени обработки основных методов для примитивов (int) при работе с BloomFilter
+![img.png](bloom_filter_put_int.png)
+![img_1.png](bloom_filter_might_contain_int_if_true.png)
+![img_2.png](bloom_filter_might_contain_int_if_false.png)
+2) Замеры времени обработки основных методов для объектов (Integer) при работе с GenericBloomFilter
+![img_3.png](generic_bf_put.png)
+![img_4.png](generic_bf_might_contain_if_true.png)
+![img_5.png](generic_bf_might_contain_if_false.png)
+3) Использование памяти (одинаково для обеих реализаций)
+![img_6.png](bf_memory_usage.png)
+
+
+### Анализ
+Как показывают данные, реализация без обобщений работает немного быстрее за счет обхода виртуальных вызовов

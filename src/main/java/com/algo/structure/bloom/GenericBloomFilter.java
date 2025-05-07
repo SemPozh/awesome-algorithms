@@ -1,4 +1,4 @@
-package com.algo.structure;
+package com.algo.structure.bloom;
 
 public class GenericBloomFilter<T> {
     private final BloomFilter bloomFilter;

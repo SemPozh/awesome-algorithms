@@ -19,10 +19,10 @@ import java.util.concurrent.TimeUnit;
 @OutputTimeUnit(TimeUnit.MICROSECONDS)
 @Warmup(iterations = 3, time = 1)
 @Measurement(iterations = 5, time = 1)
-public class BloomFilterBenchmark {
+public class GenericBloomFilterBenchmark {
     @Param({"10", "25", "50", "100", "1000", "2000", "5000", "10000", "25000", "50000", "100000"})
     private int expectedElementsCount;
-    private BloomFilter bloomFilter;
+    private GenericBloomFilter<Integer> bloomFilter;
     private int[] testData;
     private int[] nonExistingData;
 
@@ -32,7 +32,7 @@ public class BloomFilterBenchmark {
                 .withExpectedElementsCount(this.expectedElementsCount)
                 .withFalsePositiveProbability(0.01)
                 .build();
-        bloomFilter = new BloomFilter(config);
+        bloomFilter = new GenericBloomFilter<>(new BloomFilter(config));
     }
 
     @Setup(Level.Iteration)
@@ -49,7 +49,7 @@ public class BloomFilterBenchmark {
     @Benchmark
     public void benchmarkAddOperation(Blackhole blackhole) {
         for (int item : testData) {
-            bloomFilter.putInt(item);
+            bloomFilter.put(item);
         }
         blackhole.consume(bloomFilter);
     }
@@ -57,14 +57,14 @@ public class BloomFilterBenchmark {
     @Benchmark
     public void benchmarkContainsExisting(Blackhole blackhole) {
         for (int item : testData) {
-            blackhole.consume(bloomFilter.mightContainInt(item));
+            blackhole.consume(bloomFilter.mightContain(item));
         }
     }
 
     @Benchmark
     public void benchmarkContainsNonExisting(Blackhole blackhole) {
         for (int item : nonExistingData) {
-            blackhole.consume(bloomFilter.mightContainInt(item));
+            blackhole.consume(bloomFilter.mightContain(item));
         }
     }
 
@@ -74,9 +74,11 @@ public class BloomFilterBenchmark {
                 .withExpectedElementsCount(expectedElementsCount)
                 .build();
 
-        BloomFilter tempFilter = new BloomFilter(config);
-        for (int item : testData) {
-            tempFilter.putInt(item);
+        GenericBloomFilter<Integer> tempFilter = new GenericBloomFilter<>(
+                new BloomFilter(config)
+        );
+        for (Integer item : testData) {
+            tempFilter.put(item);
         }
 
         long memoryUsage = GraphLayout.parseInstance(tempFilter).totalSize();
@@ -89,7 +91,7 @@ public class BloomFilterBenchmark {
         Options opt = new OptionsBuilder()
                 .include(BloomFilterBenchmark.class.getSimpleName())
                 .forks(1)
-                .result("bloom_filter.csv")
+                .result("generic_bloom_filter.csv")
                 .param("expectedElementsCount", "10", "25", "50", "100", "1000", "2000", "5000", "10000", "25000", "50000", "100000")
                 .build();
 

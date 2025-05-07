@@ -1,5 +1,7 @@
 package com.algo.structure;
 
+import com.algo.structure.bloom.BloomFilter;
+import com.algo.structure.bloom.BloomFilterConfig;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -30,6 +32,8 @@ public class BloomFilterTest {
 
         assertEquals(0.0, filter.estimatedCardinality(), 0.001);
     }
+
+
 
     @Test
     void testEstimateElementCount() {

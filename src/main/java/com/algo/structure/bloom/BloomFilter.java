@@ -1,4 +1,4 @@
-package com.algo.structure;
+package com.algo.structure.bloom;
 
 import com.algo.structure.hash.function.interfaces.IntHashFunction;
 import com.algo.structure.hash.function.interfaces.ObjectHashFunction;

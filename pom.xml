@@ -39,17 +39,22 @@
             <version>1.5.5</version>
         </dependency>
 
-        <!-- https://mvnrepository.com/artifact/org.openjdk.jmh/jmh-core -->
         <dependency>
             <groupId>org.openjdk.jmh</groupId>
             <artifactId>jmh-core</artifactId>
             <version>1.37</version>
         </dependency>
-        <!-- https://mvnrepository.com/artifact/org.openjdk.jmh/jmh-generator-annprocess -->
+
         <dependency>
             <groupId>org.openjdk.jmh</groupId>
             <artifactId>jmh-generator-annprocess</artifactId>
             <version>1.37</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.openjdk.jol</groupId>
+            <artifactId>jol-core</artifactId>
+            <version>0.17</version>
         </dependency>
     </dependencies>
 
@@ -88,9 +93,6 @@
                     </execution>
                 </executions>
             </plugin>
-
-
-
         </plugins>
     </build>
 </project>
